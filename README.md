@@ -6,7 +6,7 @@ I'd been using tsc Version 4.1.3 and node Version 14.19.0
 
 Compiling TypeScript app:
 
-#tsc app.tsc
+#tsc app.ts
 
 This will create app.js 
 
