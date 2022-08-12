@@ -13,13 +13,15 @@ var puzz = [
     ['A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A']
 ];
 var Maze = /** @class */ (function () {
-    function Maze(puzzle) {
+    function Maze(puzzle, diagonal) {
+        if (diagonal === void 0) { diagonal = false; }
         this.solution = [];
         this.possibleStartings = [];
         this.startingLetter = 'B';
         this.endingLetter = 'B';
         this.sequence = 'CCCDDDEEEDDD';
         this.sequenceIndex = -1;
+        this.enableDiagonal = diagonal;
         this.puzzle = puzzle;
         this.getStartingLetters();
     }
@@ -150,6 +152,13 @@ var Maze = /** @class */ (function () {
                 r[6] = this.getValue(x, y - 1);
                 r[7] = this.getValue(x - 1, y - 1);
             }
+        }
+        //Disable diagonals
+        if (this.enableDiagonal == false) {
+            r[1] = null;
+            r[3] = null;
+            r[5] = null;
+            r[7] = null;
         }
         return r;
     };

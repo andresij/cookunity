@@ -44,7 +44,10 @@ class Maze {
     sequence:string = 'CCCDDDEEEDDD';
     sequenceIndex: number = -1;
 
-    constructor (puzzle:Puzzle){
+    enableDiagonal:boolean;
+
+    constructor (puzzle:Puzzle, diagonal:boolean = false){
+        this.enableDiagonal = diagonal;
         this.puzzle = puzzle;
         this.getStartingLetters();
     }
@@ -171,6 +174,13 @@ class Maze {
                 r[7] = this.getValue(x-1, y-1);
             }
         }
+        //Disable diagonals
+        if (this.enableDiagonal == false) {
+            r[1] = null;
+            r[3] = null;
+            r[5] = null;
+            r[7] = null;
+        } 
         return r;
     }
     //Builds new letter based on current letter and "Next" index
