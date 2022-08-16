@@ -318,7 +318,7 @@ var Maze = /** @class */ (function () {
         this.dump(this.puzzle);
     };
     // displays the solution
-    Maze.prototype.dumpSolution = function (solution) {
+    Maze.prototype.dumpSolution = function () {
         var row = [];
         var matrix = [];
         for (var x = 0; x < this.puzzle.length; x++) {
@@ -328,7 +328,7 @@ var Maze = /** @class */ (function () {
             matrix.push(row);
             row = [];
         }
-        solution.forEach(function (l) {
+        this.solution.forEach(function (l) {
             matrix[l.xpos][l.ypos] = l.value;
         });
         this.dump(matrix);
@@ -351,7 +351,7 @@ var solution = myMaze.run();
 if (solution !== false) {
     myMaze.dumpMaze();
     console.log("Solution");
-    myMaze.dumpSolution(solution);
+    myMaze.dumpSolution();
 }
 else {
     console.log("Couldn't find a solution");

@@ -9,13 +9,13 @@
  * next indicates the position of the next letter in the path (from 0 to 7)
  */
  type Letter = {
-    value: string[1];
+    value: string;
     xpos: number;
     ypos: number;
-    surrounding:  Array<string[1] | null>;
+    surrounding:  Array<string | null>;
     next: number|null;
 };
-type Puzzle = Array<Array<string[1]>>
+type Puzzle = Array<Array<string>>
 
 let puzz: Puzzle = [
     ['A', 'B', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A'],
@@ -39,8 +39,8 @@ class Maze {
     solution: Letter[] = [];
     possibleStartings: Letter[] = [];
 
-    startingLetter:string[1] = 'B';
-    endingLetter:string[1] = 'B';
+    startingLetter:string = 'B';
+    endingLetter:string = 'B';
     sequence:string = 'CCCDDDEEEDDD';
     sequenceIndex: number = -1;
 
@@ -72,7 +72,7 @@ class Maze {
 
     // Verify if a given (x, y) letter position was already used in the solution. 
     // if it was used, returns null - else, returns the value
-    getValue(x:number, y:number):string[1]|null {
+    getValue(x:number, y:number):string|null {
         for (let j:number = 0; j<this.solution.length; j++){
             if (this.solution[j].xpos == x && this.solution[j].ypos == y){
                 return null;
@@ -82,8 +82,8 @@ class Maze {
     }
 
     // Find surrounding chars for a given Letter 
-    getSurroundingLetters(x: number, y: number): Array<string[1] | null> {
-        let r: Array<string[1] | null> = [];
+    getSurroundingLetters(x: number, y: number): Array<string | null> {
+        let r: Array<string | null> = [];
         let newx: number, newy:number ;
         //Current letter is not at top or bottom border
         if (x > 0 && x < this.puzzle.length-1) {
@@ -235,7 +235,7 @@ class Maze {
     }
 
     //verify if current letter is in contact with the desired letter and return the position in the surrounding array
-    buildNextValue (l:Letter, char:string[1]):number {    
+    buildNextValue (l:Letter, char:string):number {    
         return l.surrounding.indexOf(char, (l.next==null)?0:l.next+1);;
     }
 
@@ -243,7 +243,7 @@ class Maze {
     // first it verifies if it is surrounded by an ending char.
     // if not, it tries to find the expected character inside the surrounding array (from 0 to 7)
     // if char isn't found, it will return -1
-    getNextDirection (l:Letter, char:string[1]): number{
+    getNextDirection (l:Letter, char:string): number{
         let res:number;
         //Verify if there is an ending character arround 
         const solution = this.buildNextValue(l, this.endingLetter);
@@ -261,7 +261,7 @@ class Maze {
     }
 
     //sequence next letter
-    getNextLetter():string[1] {
+    getNextLetter():string {
         this.sequenceIndex++;
         //when sequence is finish, start again
         if (this.sequenceIndex == this.sequence.length) {
@@ -271,7 +271,7 @@ class Maze {
     }
 
     //sequence previous letter
-    getPreviousLetter():string[1] {
+    getPreviousLetter():string {
         this.sequenceIndex--;
         //when sequence is finish, start again
         if (this.sequenceIndex < 0) {
@@ -281,7 +281,7 @@ class Maze {
     }
 
     findPath (lastLetter:Letter):boolean {
-        let nextLetter:string[1] = this.getNextLetter();
+        let nextLetter:string = this.getNextLetter();
         let resolved:boolean = false;
         let result:boolean = false;
         
@@ -342,9 +342,9 @@ class Maze {
     }
 
     // displays the solution
-    dumpSolution (solution:Letter[]): void {
-        let row:Array<string[1]> = [];
-        let matrix:Array<Array<string[1]>> = [];
+    dumpSolution (): void {
+        let row:Array<string> = [];
+        let matrix:Array<Array<string>> = [];
         for (let x = 0; x < this.puzzle.length; x++) {
             for (let y = 0; y < this.puzzle.length; y++) {
                 row.push('.');
@@ -353,7 +353,7 @@ class Maze {
             row = [];
         }
 
-        solution.forEach((l:Letter) => {
+        this.solution.forEach((l:Letter) => {
             matrix[l.xpos][l.ypos] = l.value;
         })
 
@@ -379,7 +379,7 @@ let solution = myMaze.run();
 if (solution !== false) {
     myMaze.dumpMaze();
     console.log ("Solution");
-    myMaze.dumpSolution(solution);
+    myMaze.dumpSolution();
 } else {
     console.log ("Couldn't find a solution");
 }
