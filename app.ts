@@ -84,7 +84,6 @@ class Maze {
     // Find surrounding chars for a given Letter 
     getSurroundingLetters(x: number, y: number): Array<string | null> {
         let r: Array<string | null> = [];
-        let newx: number, newy:number ;
         //Current letter is not at top or bottom border
         if (x > 0 && x < this.puzzle.length-1) {
             //middle of the row
